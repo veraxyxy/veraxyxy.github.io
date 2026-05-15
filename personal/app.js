@@ -11,6 +11,7 @@
 
   var STORAGE_IMG_WORK = "miaomiao-baba-img-work-data";
   var STORAGE_IMG_REST = "miaomiao-baba-img-rest-data";
+  var STORAGE_BIRTHDAY_SPLASH = "miaomiao-baba-birthday-seen-v1";
   var DEFAULT_IMG_WORK = "assets/miaomiao-work.png";
   var DEFAULT_IMG_REST = "assets/miaomiao-rest.png";
 
@@ -117,6 +118,8 @@
     panelRest: document.getElementById("panel-rest"),
     tabWork: document.getElementById("tab-work"),
     tabRest: document.getElementById("tab-rest"),
+    birthdaySplash: document.getElementById("birthday-splash"),
+    btnSplashEnter: document.getElementById("btn-splash-enter"),
   };
 
   function pad(n) {
@@ -600,6 +603,35 @@
     if (document.visibilityState === "visible") render();
   });
 
+  function dismissBirthdaySplash() {
+    if (!el.birthdaySplash || el.birthdaySplash.classList.contains("is-hidden")) return;
+    el.birthdaySplash.classList.add("is-leaving");
+    el.body.classList.remove("splash-open");
+    el.birthdaySplash.setAttribute("aria-hidden", "true");
+    try {
+      localStorage.setItem(STORAGE_BIRTHDAY_SPLASH, "1");
+    } catch (err) {
+      /* ignore */
+    }
+    window.setTimeout(function () {
+      el.birthdaySplash.classList.add("is-hidden");
+    }, 480);
+  }
+
+  function initBirthdaySplash() {
+    if (!el.birthdaySplash) return;
+    if (document.documentElement.classList.contains("splash-skip")) {
+      el.birthdaySplash.classList.add("is-hidden");
+      el.birthdaySplash.setAttribute("aria-hidden", "true");
+      return;
+    }
+    el.body.classList.add("splash-open");
+    if (el.btnSplashEnter) {
+      el.btnSplashEnter.addEventListener("click", dismissBirthdaySplash);
+    }
+  }
+
+  initBirthdaySplash();
   renderRelaxList();
   updateFooterStats();
   applyPetImagesFromStorage();

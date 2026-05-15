@@ -723,3 +723,258 @@ body.state-summary-pending .timer-label,
 body.state-break-prompt .timer-label {
   display: none;
 }
+
+/* —— 生日开屏（仅首次打开） —— */
+html.splash-skip .birthday-splash {
+  display: none !important;
+}
+
+body.splash-open {
+  overflow: hidden;
+}
+
+body.splash-open .app-dock {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.birthday-splash {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: calc(16px + env(safe-area-inset-top)) 18px calc(20px + env(safe-area-inset-bottom));
+  background: linear-gradient(165deg, #fff9f6 0%, #faf6f0 45%, #f3efe8 100%);
+  animation: splash-bg-in 0.55s var(--ease-out) both;
+}
+
+.birthday-splash.is-hidden {
+  display: none !important;
+}
+
+.birthday-splash.is-leaving {
+  animation: splash-bg-out 0.5s var(--ease-out) forwards;
+  pointer-events: none;
+}
+
+.birthday-splash__bg {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.birthday-spark {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.75;
+  animation: spark-float 4.2s ease-in-out infinite;
+}
+
+.birthday-spark--1 {
+  width: 10px;
+  height: 10px;
+  left: 12%;
+  top: 18%;
+  background: #f4a4b8;
+  animation-delay: 0s;
+}
+
+.birthday-spark--2 {
+  width: 8px;
+  height: 8px;
+  right: 14%;
+  top: 22%;
+  background: #9ec5e8;
+  animation-delay: 0.6s;
+}
+
+.birthday-spark--3 {
+  width: 12px;
+  height: 12px;
+  left: 8%;
+  bottom: 28%;
+  background: #f5d76e;
+  animation-delay: 1.1s;
+}
+
+.birthday-spark--4 {
+  width: 7px;
+  height: 7px;
+  right: 10%;
+  bottom: 32%;
+  background: #b8a0e8;
+  animation-delay: 0.3s;
+}
+
+.birthday-spark--5 {
+  width: 9px;
+  height: 9px;
+  left: 22%;
+  top: 42%;
+  background: #ffb38a;
+  animation-delay: 1.8s;
+}
+
+.birthday-spark--6 {
+  width: 6px;
+  height: 6px;
+  right: 24%;
+  top: 48%;
+  background: #8fd4a8;
+  animation-delay: 2.2s;
+}
+
+.birthday-splash__inner {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 360px;
+  text-align: center;
+}
+
+.birthday-splash__title {
+  margin: 0 0 14px;
+  font-family: var(--font-round);
+  font-size: 28px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  color: var(--accent-primary);
+  animation: splash-title-in 0.7s var(--ease-pop) 0.15s both;
+}
+
+.birthday-splash__frame {
+  margin: 0 auto 14px;
+  padding: 10px;
+  background: #fff;
+  border-radius: 24px;
+  box-shadow: 0 16px 48px rgba(196, 104, 85, 0.14);
+  animation: splash-art-in 0.85s var(--ease-pop) 0.25s both;
+}
+
+.birthday-splash__art {
+  display: block;
+  width: 100%;
+  max-width: min(300px, 82vw);
+  height: auto;
+  margin: 0 auto;
+  border-radius: 16px;
+  animation: splash-art-float 3.2s ease-in-out 1.1s infinite;
+}
+
+.birthday-splash__sub {
+  margin: 0 0 18px;
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--text-secondary);
+  animation: splash-sub-in 0.6s var(--ease-out) 0.55s both;
+}
+
+.birthday-splash__btn {
+  max-width: 280px;
+  margin: 0 auto;
+  animation: splash-btn-in 0.55s var(--ease-out) 0.75s both;
+}
+
+@keyframes splash-bg-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes splash-bg-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes splash-title-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes splash-art-in {
+  from {
+    opacity: 0;
+    transform: scale(0.88) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes splash-art-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes splash-sub-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes splash-btn-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes spark-float {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+    opacity: 0.5;
+  }
+  50% {
+    transform: translate(6px, -12px) scale(1.15);
+    opacity: 0.95;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .birthday-splash,
+  .birthday-splash__title,
+  .birthday-splash__frame,
+  .birthday-splash__art,
+  .birthday-splash__sub,
+  .birthday-splash__btn,
+  .birthday-spark {
+    animation: none !important;
+  }
+
+  .birthday-splash.is-leaving {
+    opacity: 0;
+    transition: opacity 0.25s var(--ease-out);
+  }
+}

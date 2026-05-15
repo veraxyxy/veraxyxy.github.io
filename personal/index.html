@@ -8,8 +8,46 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <title>秒秒陪爸爸</title>
   <link rel="stylesheet" href="styles.css" />
+  <script>
+    try {
+      if (
+        localStorage.getItem("miaomiao-baba-birthday-seen-v1") &&
+        !/\bsplash=1\b/.test(location.search)
+      ) {
+        document.documentElement.classList.add("splash-skip");
+      }
+    } catch (e) {}
+  </script>
 </head>
 <body>
+  <div id="birthday-splash" class="birthday-splash" role="dialog" aria-modal="true" aria-labelledby="birthday-splash-title" aria-hidden="false">
+    <div class="birthday-splash__bg" aria-hidden="true">
+      <span class="birthday-spark birthday-spark--1"></span>
+      <span class="birthday-spark birthday-spark--2"></span>
+      <span class="birthday-spark birthday-spark--3"></span>
+      <span class="birthday-spark birthday-spark--4"></span>
+      <span class="birthday-spark birthday-spark--5"></span>
+      <span class="birthday-spark birthday-spark--6"></span>
+    </div>
+    <div class="birthday-splash__inner">
+      <h2 id="birthday-splash-title" class="birthday-splash__title">祝你生日快乐</h2>
+      <div class="birthday-splash__frame">
+        <img
+          class="birthday-splash__art"
+          src="assets/birthday-splash.png"
+          alt="秒秒祝你生日快乐"
+          width="1024"
+          height="1024"
+          decoding="async"
+        />
+      </div>
+      <p class="birthday-splash__sub">爸爸，这是秒秒送你的生日礼物呀～</p>
+      <button type="button" class="btn btn--primary birthday-splash__btn" id="btn-splash-enter">
+        收下礼物，陪秒秒去
+      </button>
+    </div>
+  </div>
+
   <div class="shell">
     <div class="column">
       <header class="top">
