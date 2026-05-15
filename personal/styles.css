@@ -20,9 +20,13 @@
   --font-round: "Yuanti SC", "Yuanti TC", "STYuanti", "YouYuan", "PingFang SC", sans-serif;
   --ease-out: cubic-bezier(0.25, 0.1, 0.25, 1);
   --ease-pop: cubic-bezier(0.34, 1.2, 0.64, 1);
-  /* 底部 Tab 浮层高度（不含 Home 条安全区） */
-  --tab-bar-h: 76px;
-  --page-bottom-gap: 32px;
+  /* 底部 Tab 浮层（padding + 按钮高度，不含 Home 条） */
+  --tab-bar-h: 70px;
+  /* 主按钮上方额外留白（避免与 Tab 重叠） */
+  --page-bottom-gap: 72px;
+  /* Safari 普通浏览时 safe-area 常为 0，iPhone 16 Pro 仍须预留 Home 条 */
+  --safe-bottom: max(34px, env(safe-area-inset-bottom, 0px));
+  --bottom-reserve: calc(var(--page-bottom-gap) + var(--tab-bar-h) + var(--safe-bottom));
 }
 
 *,
@@ -33,9 +37,7 @@
 
 html {
   -webkit-text-size-adjust: 100%;
-  scroll-padding-bottom: calc(
-    var(--page-bottom-gap) + var(--tab-bar-h) + env(safe-area-inset-bottom, 34px)
-  );
+  scroll-padding-bottom: var(--bottom-reserve);
 }
 
 body {
@@ -47,9 +49,7 @@ body {
   background: var(--bg-page);
   min-height: 100dvh;
   padding: calc(20px + env(safe-area-inset-top)) calc(18px + env(safe-area-inset-right))
-    calc(
-      var(--page-bottom-gap) + var(--tab-bar-h) + env(safe-area-inset-bottom, 34px)
-    )
+    calc(12px + var(--safe-bottom))
     calc(18px + env(safe-area-inset-left));
 }
 
@@ -91,7 +91,7 @@ body::before {
   width: 100%;
   z-index: 100;
   margin: 0;
-  padding: 0 16px calc(12px + env(safe-area-inset-bottom));
+  padding: 0 16px calc(12px + var(--safe-bottom));
   box-sizing: border-box;
   background: transparent;
   border: none;
@@ -265,10 +265,17 @@ body.state-break-prompt .work-controls .timer-block {
 .work-controls {
   margin-top: 14px;
   margin-bottom: 0;
-  padding-bottom: calc(12px + env(safe-area-inset-bottom, 34px) * 0.35);
   max-width: min(320px, 92vw);
   margin-left: auto;
   margin-right: auto;
+}
+
+/* 文档流占位：为 fixed Tab 预留高度（Safari 里 safe-area 常为 0） */
+.dock-spacer {
+  height: var(--bottom-reserve);
+  min-height: 176px;
+  flex-shrink: 0;
+  pointer-events: none;
 }
 
 .cheer.is-fading {
