@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#FAF6F0" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <title>秒秒陪爸爸</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="shell">
+    <div class="column">
+      <header class="top">
+        <div class="top__main">
+          <h1 class="display">秒秒陪爸爸</h1>
+        </div>
+        <p class="top-stat" aria-live="polite">
+          <span class="stat-pill">今日 <strong id="stat-today">0</strong> 分 · <span id="stat-segments">0</span> 次</span>
+        </p>
+      </header>
+      <p class="lede">爸爸忙一会儿，秒秒乖乖等；到点记得陪陪本宝宝～</p>
+
+      <div id="panel-work" class="tab-panel" role="tabpanel" aria-labelledby="tab-work" tabindex="0">
+      <div class="workbench" aria-label="工作台">
+        <div class="pet-row">
+          <section class="card pet-card" aria-label="秒秒的照片">
+          <div class="pet-stage">
+          <div id="pet-calm" class="pet pet--calm" aria-hidden="false">
+            <img
+              id="pet-img-work"
+              class="pet-img pet-img--cutout"
+              src="assets/miaomiao-work.png"
+              alt="秒秒陪爸爸"
+              width="600"
+              height="800"
+              loading="lazy"
+              decoding="async"
+            />
+            <img
+              id="pet-img-rest"
+              class="pet-img pet-img--cutout is-hidden"
+              src="assets/miaomiao-rest.png"
+              alt="秒秒休息中"
+              width="600"
+              height="800"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+          <div id="pet-pop" class="pet pet--pop is-hidden" aria-hidden="true">
+            <img
+              id="pet-img-pop"
+              class="pet-img pet-img--pop pet-img--cutout"
+              src="assets/miaomiao-rest.png"
+              alt="秒秒喊爸爸休息一下"
+              width="600"
+              height="800"
+              loading="eager"
+              decoding="async"
+            />
+          </div>
+          </div>
+          </section>
+        </div>
+
+        <p id="cheer-text" class="cheer cheer--below-photo" aria-live="polite"></p>
+
+        <div class="work-controls">
+          <div class="timer-block">
+            <p class="timer-label" id="timer-label">还要忙多久呀</p>
+            <p class="timer" id="timer-display" tabindex="0">50:00</p>
+          </div>
+          <div class="actions">
+            <button type="button" class="btn btn--primary" id="btn-primary">爸爸，开始工作啦</button>
+            <p class="badge" id="focus-badge" role="status">秒秒乖乖等爸爸～</p>
+          </div>
+        </div>
+      </div>
+
+      </div>
+
+      <div id="panel-rest" class="tab-panel" role="tabpanel" aria-labelledby="tab-rest" tabindex="0" hidden>
+      <section class="card relax" aria-labelledby="relax-title">
+        <h2 id="relax-title" class="section-title section-title--center">秒秒的小休息单</h2>
+        <p class="relax-intro relax-intro--center">休息那几分钟，爸爸挑一件陪本宝宝的小事好不好？</p>
+        <ul class="relax-list" id="relax-list"></ul>
+      </section>
+
+      <details class="card photo-settings">
+        <summary class="photo-settings__summary">换照片（透明底 PNG 效果最好）</summary>
+        <div class="file-lines">
+          <label class="file-line">
+            <span class="file-line__label">忙忙</span>
+            <input type="file" id="file-work" accept="image/*" class="file-input" />
+          </label>
+          <label class="file-line">
+            <span class="file-line__label">休息</span>
+            <input type="file" id="file-rest" accept="image/*" class="file-input" />
+          </label>
+        </div>
+        <button type="button" class="btn btn--ghost" id="btn-reset-photos">恢复默认</button>
+      </details>
+      </div>
+
+    </div>
+  </div>
+
+  <div
+    class="modal-root"
+    id="modal-root"
+    role="presentation"
+    aria-hidden="true"
+  >
+    <button type="button" class="modal-backdrop" id="modal-backdrop" tabindex="-1" aria-label="到点时点此去休息；小结时点此关闭"></button>
+    <div class="modal-panel-wrap">
+      <div id="modal-pane-break" class="modal-panel is-hidden" role="dialog" aria-modal="true" aria-labelledby="break-title">
+        <h2 id="break-title" class="overlay-title">爸爸站起来嘛，陪陪本宝宝～</h2>
+        <p class="overlay-body">伸伸懒腰、喝口水。接下来三分钟，陪秒秒～</p>
+        <p class="modal-countdown" id="break-countdown" aria-live="polite"></p>
+        <button type="button" class="btn btn--primary" id="btn-modal-know">好哒，陪秒秒休息</button>
+        <button type="button" class="btn btn--ghost" id="btn-modal-close">关闭</button>
+      </div>
+      <div id="modal-pane-summary" class="modal-panel is-hidden" role="dialog" aria-modal="true" aria-labelledby="summary-title">
+        <h2 id="summary-title" class="overlay-title">这一段结束啦</h2>
+        <p class="overlay-body" id="summary-body"></p>
+        <button type="button" class="btn btn--primary" id="btn-next-segment">爸爸再来一轮嘛</button>
+        <button type="button" class="btn btn--ghost" id="btn-later">关闭</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 底部 Dock：fixed 贴屏幕底；放在 body 末尾，避免被其它层「顶」到奇怪位置 -->
+  <footer class="app-dock" role="contentinfo">
+    <nav class="tab-bar" role="tablist" aria-label="秒秒陪爸爸">
+      <button type="button" class="tab-bar__btn is-active" role="tab" id="tab-work" aria-controls="panel-work" aria-selected="true" tabindex="0">工作啦</button>
+      <button type="button" class="tab-bar__btn" role="tab" id="tab-rest" aria-controls="panel-rest" aria-selected="false" tabindex="-1">休息啦</button>
+    </nav>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
